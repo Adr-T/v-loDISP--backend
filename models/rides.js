@@ -1,4 +1,10 @@
-const express = require("express");
-const router = express.Router();
+const mongoose = require("mongoose");
+const rideSchema = mongoose.Schema({
+    depart: { lon: Number, lat: Number, date: Date },
+    arrival: { lon: Number, lat: Number, date: Date },
+    travelTime: String,
+});
 
-module.exports = router;
+const Ride = mongoose.model("rides", rideSchema);
+
+module.exports = Ride;

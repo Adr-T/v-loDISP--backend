@@ -1,10 +1,11 @@
+const mongoose = require("mongoose");
 const userSchema = mongoose.Schema({
-    username: String,
-    name: String,
-    password: String,
-    token: String,
-    // trajet: clef etrangère (a mettre en place)
-    // stats : clef étrangère (à mettre en place)
+  username: String,
+  name: String,
+  password: String,
+  token: String,
+  rides: [{ type: mongoose.Schema.Types.ObjectId, ref: "rides" }] || [],
+  stats: [{ type: mongoose.Schema.Types.ObjectId, ref: "stats" }] || [],
 });
 
 const User = mongoose.model("users", userSchema);
