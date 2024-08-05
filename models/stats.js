@@ -4,6 +4,6 @@ const statSchema = mongoose.Schema({
   noteRide: String,
 });
 
-const Stat = mongoose.model("stats", userSchema);
+const Stat = mongoose.model("stats", statSchema);
 
 module.exports = Stat;
