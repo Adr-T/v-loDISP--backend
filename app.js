@@ -4,10 +4,12 @@ var path = require("path");
 var cookieParser = require("cookie-parser");
 var logger = require("morgan");
 
+//Mise ne place des routes
 var indexRouter = require("./routes/index");
 var usersRouter = require("./routes/users");
 
 var app = express();
+//Mise en place de cors pour sécuriser le backend
 const cors = require("cors");
 app.use(cors());
 
@@ -21,6 +23,7 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, "public")));
 
+//définition des familles de routes
 app.use("/", indexRouter);
 app.use("/users", usersRouter);
 
