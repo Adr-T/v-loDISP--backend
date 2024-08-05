@@ -1,5 +1,9 @@
 var express = require("express");
+const User = require("../models/users");
 var router = express.Router();
+
+const uid2 = require("uid2");
+const bcrypt = require("bcrypt");
 
 /* GET users listing. */
 // router.get("/", function (req, res, next) {
@@ -39,4 +43,38 @@ var router = express.Router();
 //     }
 //   });
 // });
+
+//créer un nouveau user
+router.post("/signup", (req, res) => {
+    //créer une regex pour gérer la casse
+    let userQuery = new RegExp(req.body.username, "i");
+    let passwordQuery = req.body.password;
+
+    //utiliser le module checkBody pour gérer les champs vides
+    if (!checkBody(req.body, ["username", "password"])) {
+        res.json({ result: false, error: "Missing or empty filed" });
+        return;
+    }
+
+    User.findOne({
+        username: userQuery,
+    }).then((data) => {
+        if (data) {
+            res.json({ result: false, error: "User already registered" });
+        } else {
+            const hash = bcrypt.hashSync(passwordQuery, 10);
+
+            const newUser = new User({
+                username: req.body.username,
+                password: hash,
+                token: uid2(32),
+            });
+
+            newUser.save().then((newDoc) => {
+                res.json({ result: true, token: newDoc.token });
+            });
+        }
+    });
+});
+
 module.exports = router;
