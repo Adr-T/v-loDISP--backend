@@ -23,8 +23,6 @@ router.post("/signup", (req, res) => {
   }
 
   User.findOne({ username: userQuery }).then((data) => {
-    console.log(data);
-
     if (data) {
       //Si un utilisateur existe déjà, pas de création
       res.json({ result: false, error: "User already registered" });
