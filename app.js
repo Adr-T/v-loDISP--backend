@@ -10,7 +10,7 @@ var logger = require("morgan");
 var indexRouter = require("./routes/index");
 var usersRouter = require("./routes/users");
 var bikesRouter = require("./routes/bikes");
-var mapsRouter = require("./routes/maps");
+var statsRouter = require("./routes/stats");
 
 var app = express();
 //Mise en place de cors pour sécuriser le backend
@@ -31,7 +31,7 @@ app.use(express.static(path.join(__dirname, "public")));
 app.use("/", indexRouter);
 app.use("/users", usersRouter);
 app.use("/bikes", bikesRouter);
-app.use("/maps", mapsRouter);
+app.use("/stats", statsRouter);
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
