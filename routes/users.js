@@ -10,20 +10,20 @@ const bcrypt = require("bcrypt");
 //créer un nouveau user
 router.post("/signup", (req, res) => {
   //créer une regex pour gérer la casse
-  let userQuery = new RegExp(req.body.signUpUsername, "i");
+  let userQuery = new RegExp(req.body.username, "i");
 
-  let passwordQuery = req.body.signUpPassword;
+  // console.log(req.body);
+
+  let passwordQuery = req.body.password;
 
   // utiliser le module checkBody pour gérer les champs vides
-  if (
-    !checkBody(req.body, ["signUpUsername", "signUpEmail", "signUpPassword"])
-  ) {
+  if (!checkBody(req.body, ["email", "username", "password"])) {
     res.json({ result: false, error: "Missing or empty filed" });
     return;
   }
 
   User.findOne({ username: userQuery }).then((data) => {
-    console.log(data);
+    // console.log(data);
 
     if (data) {
       //Si un utilisateur existe déjà, pas de création
@@ -34,8 +34,8 @@ router.post("/signup", (req, res) => {
 
       //Créer un nouvel utilisateur avec un token de 32 charactères
       const newUser = new User({
-        username: req.body.signUpUsername,
-        email: req.body.signUpEmail,
+        username: req.body.username,
+        email: req.body.email,
         password: hash,
         token: uid2(32),
       });
@@ -50,12 +50,14 @@ router.post("/signup", (req, res) => {
 
 //Se connecter à un compte utilisateur
 router.post("/signin", (req, res) => {
+  console.log(req.body);
+
   //créer une regex pour gérer la casse
-  let userQuery = new RegExp(req.body.signInUsername, "i");
-  let passwordQuery = req.body.signInPassword;
+  let userQuery = new RegExp(req.body.username, "i");
+  let passwordQuery = req.body.password;
 
   //utiliser le module checkBody pour gérer les champs vides
-  if (!checkBody(req.body, ["signInUsername", "signInPassword"])) {
+  if (!checkBody(req.body, ["username", "password"])) {
     res.json({ result: false, error: "Missing or empty fields" });
     return;
   }
