@@ -7,20 +7,24 @@ const { checkBody } = require("../modules/checkBody");
 const uid2 = require("uid2");
 //import du module bcrypt pour pouvoir mettre en place une mécanique de mot de passe
 const bcrypt = require("bcrypt");
-
 //créer un nouveau user
 router.post("/signup", (req, res) => {
   //créer une regex pour gérer la casse
-  let userQuery = new RegExp(req.body.username, "i");
+  let userQuery = new RegExp(req.body.signUpUsername, "i");
+
   let passwordQuery = req.body.signUpPassword;
 
-  //utiliser le module checkBody pour gérer les champs vides
-  if (!checkBody(req.body, ["username", "email"])) {
+  // utiliser le module checkBody pour gérer les champs vides
+  if (
+    !checkBody(req.body, ["signUpUsername", "signUpEmail", "signUpPassword"])
+  ) {
     res.json({ result: false, error: "Missing or empty filed" });
     return;
   }
 
   User.findOne({ username: userQuery }).then((data) => {
+    console.log(data);
+
     if (data) {
       //Si un utilisateur existe déjà, pas de création
       res.json({ result: false, error: "User already registered" });
@@ -30,8 +34,8 @@ router.post("/signup", (req, res) => {
 
       //Créer un nouvel utilisateur avec un token de 32 charactères
       const newUser = new User({
-        username: req.body.signUpEmail,
-        email: req.body.signUpUsername,
+        username: req.body.signUpUsername,
+        email: req.body.signUpEmail,
         password: hash,
         token: uid2(32),
       });
@@ -47,11 +51,11 @@ router.post("/signup", (req, res) => {
 //Se connecter à un compte utilisateur
 router.post("/signin", (req, res) => {
   //créer une regex pour gérer la casse
-  let userQuery = new RegExp(req.body.username, "i");
-  let passwordQuery = req.body.password;
+  let userQuery = new RegExp(req.body.signInUsername, "i");
+  let passwordQuery = req.body.signInPassword;
 
   //utiliser le module checkBody pour gérer les champs vides
-  if (!checkBody(req.body, ["username", "password"])) {
+  if (!checkBody(req.body, ["signInUsername", "signInPassword"])) {
     res.json({ result: false, error: "Missing or empty fields" });
     return;
   }
