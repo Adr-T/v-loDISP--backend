@@ -2,8 +2,8 @@ var express = require("express");
 var router = express.Router();
 // const { checkBody } = require("../modules/checkBody");
 router.get("/", async (req, res) => {
-  let velibVeloAavailable;
-  let velibParkingAavailable;
+  let velibVeloAvailable;
+  let velibParkingAvailable;
   let limVeloAvailable;
 
   await fetch(
@@ -12,9 +12,9 @@ router.get("/", async (req, res) => {
     .then((response) => response.json())
     .then((data) => {
       if (data) {
-        velibVeloAavailable = data.data.stations;
+        velibVeloAvailable = data.data.stations;
       } else {
-        res.json({ veloAavailable: "not found" });
+        res.json({ veloAvailable: "not found" });
       }
     });
   await fetch(
@@ -23,9 +23,9 @@ router.get("/", async (req, res) => {
     .then((response) => response.json())
     .then((data) => {
       if (data) {
-        velibParkingAavailable = data.data.stations;
+        velibParkingAvailable = data.data.stations;
       } else {
-        res.json({ parkingAavailable: "not found" });
+        res.json({ parkingAvailable: "not found" });
       }
     });
   await fetch(
@@ -36,12 +36,12 @@ router.get("/", async (req, res) => {
       if (data) {
         limVeloAvailable = data.data.bikes;
       } else {
-        res.json({ parkingAavailable: "not found" });
+        res.json({ parkingAvailable: "not found" });
       }
     });
   await res.json({
-    velibParkingAavailable,
-    velibVeloAavailable,
+    velibParkingAvailable,
+    velibVeloAvailable,
     limVeloAvailable,
   });
 });

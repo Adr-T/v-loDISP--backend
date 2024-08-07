@@ -16,8 +16,6 @@ router.post("/signup", (req, res) => {
   //créer une regex pour gérer la casse
   let userQuery = new RegExp(req.body.username, "i");
 
-  // console.log(req.body);
-
   let passwordQuery = req.body.password;
 
   // utiliser le module checkBody pour gérer les champs vides
