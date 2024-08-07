@@ -11,7 +11,8 @@ const bcrypt = require("bcrypt");
 router.post("/signup", (req, res) => {
   // regex pour mail
   const EMAIL_REGEX =
-    /^(([^<>()[]\.,;:\s@"]+(.[^<>()[]\.,;:\s@"]+)*)|(".+"))@(([[0-9]{1,3}.[0-9]{1,3}.[0-9]{1,3}.[0-9]{1,3}])|(([a-zA-Z-0-9]+.)+[a-zA-Z]{2,}))$/;
+    /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+
   //créer une regex pour gérer la casse
   let userQuery = new RegExp(req.body.username, "i");
 
@@ -28,25 +29,30 @@ router.post("/signup", (req, res) => {
   User.findOne({ username: userQuery }).then((data) => {
     // console.log(data);
 
-    if (data && EMAIL_REGEX.test(req.body.email)) {
+    if (data) {
       //Si un utilisateur existe déjà, pas de création
       res.json({ result: false, error: "User already registered" });
     } else {
-      //Mettre en place une mécanique de hachage du mot de passe (haché 10x)
-      const hash = bcrypt.hashSync(passwordQuery, 10);
+      if (EMAIL_REGEX.test(req.body.email)) {
+        //Mettre en place une mécanique de hachage du mot de passe (haché 10x)
+        const hash = bcrypt.hashSync(passwordQuery, 10);
+        if (EMAIL_REGEX.test(req.body.email)) {
+          //Créer un nouvel utilisateur avec un token de 32 charactères
+          const newUser = new User({
+            username: req.body.username,
+            email: req.body.email,
+            password: hash,
+            token: uid2(32),
+          });
 
-      //Créer un nouvel utilisateur avec un token de 32 charactères
-      const newUser = new User({
-        username: req.body.username,
-        email: req.body.email,
-        password: hash,
-        token: uid2(32),
-      });
-
-      newUser.save().then((newDoc) => {
-        //Renvoyer le token du nouvel utilisateur
-        res.json({ result: true, token: newDoc.token });
-      });
+          newUser.save().then((newDoc) => {
+            //Renvoyer le token du nouvel utilisateur
+            res.json({ result: true, token: newDoc.token });
+          });
+        }
+      } else {
+        res.json({ result: false, user: "email ivalid" });
+      }
     }
   });
 });
