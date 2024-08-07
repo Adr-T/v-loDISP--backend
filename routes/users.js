@@ -31,7 +31,11 @@ router.post("/signup", (req, res) => {
 
     if (data) {
       //Si un utilisateur existe déjà, pas de création
-      res.json({ result: false, error: "User already registered" });
+      res.json({
+        result: false,
+        error: "User already registered",
+        source: "user",
+      });
     } else {
       if (EMAIL_REGEX.test(req.body.email)) {
         //Mettre en place une mécanique de hachage du mot de passe (haché 10x)
@@ -51,7 +55,7 @@ router.post("/signup", (req, res) => {
           });
         }
       } else {
-        res.json({ result: false, user: "email ivalid" });
+        res.json({ result: false, user: "email ivalid", source: "email" });
       }
     }
   });
