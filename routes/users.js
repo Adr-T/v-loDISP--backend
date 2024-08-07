@@ -9,6 +9,9 @@ const uid2 = require("uid2");
 const bcrypt = require("bcrypt");
 //créer un nouveau user
 router.post("/signup", (req, res) => {
+  // regex pour mail
+  const EMAIL_REGEX =
+    /^(([^<>()[]\.,;:\s@"]+(.[^<>()[]\.,;:\s@"]+)*)|(".+"))@(([[0-9]{1,3}.[0-9]{1,3}.[0-9]{1,3}.[0-9]{1,3}])|(([a-zA-Z-0-9]+.)+[a-zA-Z]{2,}))$/;
   //créer une regex pour gérer la casse
   let userQuery = new RegExp(req.body.username, "i");
 
@@ -25,7 +28,7 @@ router.post("/signup", (req, res) => {
   User.findOne({ username: userQuery }).then((data) => {
     // console.log(data);
 
-    if (data) {
+    if (data && EMAIL_REGEX.test(req.body.email)) {
       //Si un utilisateur existe déjà, pas de création
       res.json({ result: false, error: "User already registered" });
     } else {
@@ -66,7 +69,7 @@ router.post("/signin", (req, res) => {
     //S'assurer qu'on a une réponse et comparer le mot de passe fourni par l'utilisateur avec celui stocké
     if (data && bcrypt.compareSync(passwordQuery, data.password)) {
       //Renvoyer le token de l'utilisateur + tout la donne trajet + stat
-      res.json({ result: true, token: data });
+      res.json({ result: true, data: data });
     } else {
       //Si l'utilisateur n'existe pas ou que le mot de passe est invalide, envoyer un message d'erreur
       res.json({
