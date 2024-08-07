@@ -4,18 +4,26 @@ const { checkBody } = require("../modules/checkBody");
 const Rides = require("../models/rides");
 /* GET home page. */
 router.post("/", (req, res) => {
-  //   utiliser le module checkBody pour gérer les champs vides
+  console.log(req.body);
+
+  // utiliser le module checkBody pour gérer les champs vides
   if (!checkBody(req.body, ["depart", "arrival", "travelTime"])) {
     res.json({ result: false, error: "Missing or empty filed" });
     return;
   }
-
   const newRides = new Rides({
-    depart: { lon: Number, lat: Number, date: Date },
-    arrival: { lon: Number, lat: Number, date: Date },
-    travelTime: String,
+    depart: {
+      lon: req.body.longitude,
+      lat: req.body.longitude,
+      date: req.body.date,
+    },
+    arrival: {
+      lon: req.body.longitude,
+      lat: req.body.longitude,
+      date: req.body.date,
+    },
+    travelTime: req.body.travelTime,
   });
-
   newRides.save().then((data) => {
     Stats.find().then((data) => {
       // Renvoyer tout la data du statistique

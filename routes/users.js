@@ -9,51 +9,64 @@ const uid2 = require("uid2");
 const bcrypt = require("bcrypt");
 //créer un nouveau user
 router.post("/signup", (req, res) => {
-  //créer une regex pour gérer la casse
-  let userQuery = new RegExp(req.body.signUpUsername, "i");
+  // regex pour mail
+  const EMAIL_REGEX =
+    /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
 
-  let passwordQuery = req.body.signUpPassword;
+  //créer une regex pour gérer la casse
+  let userQuery = new RegExp(req.body.username, "i");
+
+  // console.log(req.body);
+
+  let passwordQuery = req.body.password;
 
   // utiliser le module checkBody pour gérer les champs vides
-  if (
-    !checkBody(req.body, ["signUpUsername", "signUpEmail", "signUpPassword"])
-  ) {
+  if (!checkBody(req.body, ["email", "username", "password"])) {
     res.json({ result: false, error: "Missing or empty filed" });
     return;
   }
 
   User.findOne({ username: userQuery }).then((data) => {
+    // console.log(data);
+
     if (data) {
       //Si un utilisateur existe déjà, pas de création
       res.json({ result: false, error: "User already registered" });
     } else {
-      //Mettre en place une mécanique de hachage du mot de passe (haché 10x)
-      const hash = bcrypt.hashSync(passwordQuery, 10);
+      if (EMAIL_REGEX.test(req.body.email)) {
+        //Mettre en place une mécanique de hachage du mot de passe (haché 10x)
+        const hash = bcrypt.hashSync(passwordQuery, 10);
+        if (EMAIL_REGEX.test(req.body.email)) {
+          //Créer un nouvel utilisateur avec un token de 32 charactères
+          const newUser = new User({
+            username: req.body.username,
+            email: req.body.email,
+            password: hash,
+            token: uid2(32),
+          });
 
-      //Créer un nouvel utilisateur avec un token de 32 charactères
-      const newUser = new User({
-        username: req.body.signUpUsername,
-        email: req.body.signUpEmail,
-        password: hash,
-        token: uid2(32),
-      });
-
-      newUser.save().then((newDoc) => {
-        //Renvoyer le token du nouvel utilisateur
-        res.json({ result: true, token: newDoc.token });
-      });
+          newUser.save().then((newDoc) => {
+            //Renvoyer le token du nouvel utilisateur
+            res.json({ result: true, token: newDoc.token });
+          });
+        }
+      } else {
+        res.json({ result: false, user: "email ivalid" });
+      }
     }
   });
 });
 
 //Se connecter à un compte utilisateur
 router.post("/signin", (req, res) => {
+  console.log(req.body);
+
   //créer une regex pour gérer la casse
-  let userQuery = new RegExp(req.body.signInUsername, "i");
-  let passwordQuery = req.body.signInPassword;
+  let userQuery = new RegExp(req.body.username, "i");
+  let passwordQuery = req.body.password;
 
   //utiliser le module checkBody pour gérer les champs vides
-  if (!checkBody(req.body, ["signInUsername", "signInPassword"])) {
+  if (!checkBody(req.body, ["username", "password"])) {
     res.json({ result: false, error: "Missing or empty fields" });
     return;
   }
@@ -62,7 +75,7 @@ router.post("/signin", (req, res) => {
     //S'assurer qu'on a une réponse et comparer le mot de passe fourni par l'utilisateur avec celui stocké
     if (data && bcrypt.compareSync(passwordQuery, data.password)) {
       //Renvoyer le token de l'utilisateur + tout la donne trajet + stat
-      res.json({ result: true, token: data });
+      res.json({ result: true, data: data });
     } else {
       //Si l'utilisateur n'existe pas ou que le mot de passe est invalide, envoyer un message d'erreur
       res.json({
