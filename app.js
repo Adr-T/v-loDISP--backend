@@ -12,6 +12,7 @@ var usersRouter = require("./routes/users");
 var bikesRouter = require("./routes/bikes");
 var statsRouter = require("./routes/stats");
 var ridesRouter = require("./routes/rides");
+var alertsRouter = require("./routes/alerts");
 
 var app = express();
 //Mise en place de cors pour sécuriser le backend
@@ -34,6 +35,7 @@ app.use("/users", usersRouter);
 app.use("/bikes", bikesRouter);
 app.use("/stats", statsRouter);
 app.use("/rides", ridesRouter);
+app.use("/alerts", alertsRouter);
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
