@@ -58,38 +58,41 @@ router.post("/", (req, res) => {
     }
   });
 });
-router.get("/", async (req, res) => {
-  let d;
-  let depart = {};
-  let arrival = {};
-  let array = [];
-  let array1 = [];
-  let array2 = [];
-  let array3 = [];
-  let time = [];
+router.get("/ss", async (req, res) => {
   await Rides.find().then((data) => (d = data));
-  // console.log(d);
+  let array = [];
   for (const el of d) {
-    await fetch(
-      `http://api-adresse.data.gouv.fr/reverse/?lon=${el.depart.lon}&lat=${el.depart.lat}`
-    )
-      .then((response) => response.json())
-      .then((data) => {
-        depart = data.features[0].properties.label;
-        array1.push({ depart });
-      });
-    await fetch(
-      `http://api-adresse.data.gouv.fr/reverse/?lon=${el.arrival.lon}&lat=${el.arrival.lat}`
-    )
-      .then((response) => response.json())
-      .then((data) => {
-        // console.log(data.features[0]);
-        arrival = data.features[0].properties.label;
-        array2.push({ arrival });
-      });
-  }
+    const [resDepart, resArrive] = await Promise.all([
+      fetch(
+        `http://api-adresse.data.gouv.fr/reverse/?lon=${el.depart.lon}&lat=${el.depart.lat}`
+      ),
+      fetch(
+        `http://api-adresse.data.gouv.fr/reverse/?lon=${el.arrival.lon}&lat=${el.arrival.lat}`
+      ),
+    ]);
+    const [datadepart, dataArrive] = await Promise.all([
+      resDepart.json(),
+      resArrive.json(),
+    ]);
+    const velibStationMap = new Map();
+    const depart = datadepart.features.map((el) => {
+      return {
+        depart: el.properties.label,
+      };
+    });
+    const arrive = dataArrive.features.map((el) => {
+      return {
+        arrive: el.properties.label,
+      };
+    });
+    array = depart.concat(arrive);
 
-  res.json({ result: true, depart: array1, arrival: array2 });
+    res.json({
+      result: true,
+      trajet: array,
+    });
+  }
+  // array3 = array1.concat(array2);
 });
 
 module.exports = router;
