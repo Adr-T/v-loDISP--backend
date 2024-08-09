@@ -1,5 +1,5 @@
-var express = require("express"); // Import du module express
-var router = express.Router(); // Création d'un routeur express
+var express = require("express"); // Création d'un routeur express
+var router = express.Router();
 
 // Définition d'une route GET à la racine du routeur
 router.get("/", async (req, res) => {
