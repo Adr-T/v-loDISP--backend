@@ -48,8 +48,10 @@ router.post("/signup", (req, res) => {
           });
 
           newUser.save().then((newDoc) => {
-            //Renvoyer le token du nouvel utilisateur
-            res.json({ result: true, token: newDoc.token });
+            User.findOne({ token: newDoc.token }).then((data) => {
+              //Renvoyer le token de l'utilisateur + tout la donne trajet + stat
+              res.json({ result: true, data });
+            });
           });
         }
       } else {
@@ -61,8 +63,6 @@ router.post("/signup", (req, res) => {
 
 //Se connecter à un compte utilisateur
 router.post("/signin", (req, res) => {
-  console.log(req.body);
-
   //créer une regex pour gérer la casse
   let userQuery = new RegExp(req.body.username, "i");
   let passwordQuery = req.body.password;
@@ -84,6 +84,83 @@ router.post("/signin", (req, res) => {
         result: false,
         error: "User not found or wrong password",
       });
+    }
+  });
+});
+// update password
+router.post("/changepassword", (req, res) => {
+  //utiliser le module checkBody pour gérer les champs vides
+  if (!checkBody(req.body, ["token", "newPassword", "currentPassword"])) {
+    res.json({ result: false, error: "Missing or empty fields" });
+    return;
+  }
+
+  User.findOne({ token: req.body.token }).then((data) => {
+    //S'assurer qu'on a une réponse et comparer le mot de passe fourni par l'utilisateur avec celui stocké
+    const hash = bcrypt.hashSync(req.body.newPassword, 10);
+    if (!bcrypt.compareSync(hash, data.password)) {
+      res.json({
+        result: false,
+        user: "password must be different from current password",
+      });
+    }
+    if (data && !bcrypt.compareSync(hash, data.password)) {
+      User.updateOne({ token: req.body.token }, { password: hash }).then(() => {
+        //Renvoyer le token de l'utilisateur + tout la donne trajet + stat
+        res.json({ result: true, user: "your password has been changed" });
+      });
+    } else {
+      //Si l'utilisateur n'existe pas ou que le mot de passe est invalide, envoyer un message d'erreur
+      res.json({
+        result: false,
+        error: "User not found or wrong password",
+      });
+    }
+  });
+});
+// update username
+router.post("/changeusername", (req, res) => {
+  //utiliser le module checkBody pour gérer les champs vides
+  if (!checkBody(req.body, ["token", "newUsername"])) {
+    res.json({ result: false, error: "Missing or empty fields" });
+    return;
+  }
+
+  User.findOne({ token: req.body.token }).then((data) => {
+    //S'assurer qu'on a une réponse et comparer le mot de passe fourni par l'utilisateur avec celui stocké
+
+    if (data) {
+      User.updateOne(
+        { username: data.username },
+        { username: req.body.newUsername }
+      ).then(() => {
+        //Renvoyer le token de l'utilisateur + tout la donne trajet + stat
+        res.json({ result: true, user: "your username has been changed" });
+      });
+    } else {
+      //Si l'utilisateur n'existe pas ou que le mot de passe est invalide, envoyer un message d'erreur
+      res.json({
+        result: false,
+        error: "User not found",
+      });
+    }
+  });
+});
+// delete username
+router.post("/delete", (req, res) => {
+  //utiliser le module checkBody pour gérer les champs vides
+  if (!checkBody(req.body, ["token"])) {
+    res.json({ result: false, error: "Missing or empty fields" });
+    return;
+  }
+
+  User.deleteOne({ token: req.body.token }).then((data) => {
+    //S'assurer qu'on a une réponse et comparer le mot de passe fourni par l'utilisateur avec celui stocké
+
+    if (data.deletedCount > 0) {
+      res.json({ result: true, status: "your account has been deleted" });
+    } else {
+      res.json({ result: false, status: "user not found" });
     }
   });
 });

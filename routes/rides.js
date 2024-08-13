@@ -21,6 +21,7 @@ router.post("/", (req, res) => {
         arrival: req.body.arrival,
         travelTime: req.body.travelTime,
         isGuest: true,
+        date: new Date(),
       });
       newRides.save().then((rides) => {
         // console.log(dataStat);
@@ -52,6 +53,7 @@ router.post("/", (req, res) => {
         arrival: req.body.arrival,
         travelTime: req.body.travelTime,
         isGuest: false,
+        date: new Date(),
       });
       newRides.save().then(() => {
         Rides.find().then((data) => {
@@ -68,15 +70,16 @@ router.post("/historique", async (req, res) => {
   // condition si lutilisateur se trouve dans la BDD on envoi la donné cote front ent
   if (user) {
     const rides = await Rides.find();
+
     let array = [];
 
     for (const el of rides) {
       const [resDepart, resArrive] = await Promise.all([
         fetch(
-          `http://api-adresse.data.gouv.fr/reverse/?lon=${el.depart.lon}&lat=${el.depart.lat}`
+          `http://api-adresse.data.gouv.fr/reverse/?lon=${el.depart.longitude}&lat=${el.depart.latitude}`
         ),
         fetch(
-          `http://api-adresse.data.gouv.fr/reverse/?lon=${el.arrival.lon}&lat=${el.arrival.lat}`
+          `http://api-adresse.data.gouv.fr/reverse/?lon=${el.arrival.longitude}&lat=${el.arrival.latitude}`
         ),
       ]);
 
@@ -84,11 +87,13 @@ router.post("/historique", async (req, res) => {
         resDepart.json(),
         resArrive.json(),
       ]);
+      console.log(datadepart);
 
       const departure = datadepart.features[0].properties.label;
       const arrival = dataArrive.features[0].properties.label;
       const travelTime = el.travelTime;
-      const date = el.depart.date;
+      const date = el.date;
+      console.log(date);
 
       array.push({ departure, arrival, travelTime, date });
     }
