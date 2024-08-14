@@ -87,13 +87,11 @@ router.post("/historique", async (req, res) => {
         resDepart.json(),
         resArrive.json(),
       ]);
-      console.log(datadepart);
 
       const departure = datadepart.features[0].properties.label;
       const arrival = dataArrive.features[0].properties.label;
       const travelTime = el.travelTime;
       const date = el.date;
-      console.log(date);
 
       array.push({ departure, arrival, travelTime, date });
     }
