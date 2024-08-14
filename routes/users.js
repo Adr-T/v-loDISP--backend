@@ -147,7 +147,7 @@ router.post("/changeusername", (req, res) => {
   });
 });
 // delete username
-router.post("/delete", (req, res) => {
+router.delete("/delete", (req, res) => {
   //utiliser le module checkBody pour gérer les champs vides
   if (!checkBody(req.body, ["token"])) {
     res.json({ result: false, error: "Missing or empty fields" });
