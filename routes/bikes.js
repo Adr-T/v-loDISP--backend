@@ -5,10 +5,6 @@ const { tierBikes } = require("../json/tierBikes");
 
 const { calculateBoundingBox } = require("../modules/boundingBox");
 
-router.get("/dot", async (req, res) => {
-  res.json({ dottData: dottBikes, tierData: tierBikes });
-});
-
 // Définition d'une route GET à la racine du routeur
 router.get("/:lat/:lon", async (req, res) => {
   // let velibVeloAavailable;
