@@ -1,6 +1,6 @@
 const mongoose = require("mongoose");
 const statSchema = mongoose.Schema({
-  noteVelo: Number,
+  // noteVelo: Number,
   noteRide: String,
   isGuest: Boolean,
 });
