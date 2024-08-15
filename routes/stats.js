@@ -6,17 +6,16 @@ const User = require("../models/users");
 /* GET home page. */
 router.post("/", (req, res) => {
   // utiliser le module checkBody pour gérer les champs vides
-  if (!checkBody(req.body, ["noteVelo", "noteRide"])) {
+  if (!checkBody(req.body, ["noteRide"])) {
     res.json({ result: false, error: "Missing or empty filed" });
     return;
   }
   // on cherche luser avec token pour pouvoir mettre statisque dans la BDD de utilisateur
 
   User.findOne({ token: req.body.token }).then((dataUser) => {
-    console.log(dataUser);
     if (dataUser) {
       const newStats = new Stats({
-        noteVelo: req.body.noteVelo,
+        // noteVelo: req.body.noteVelo,
         noteRide: req.body.noteRide,
         isGuest: true,
       });
@@ -33,6 +32,7 @@ router.post("/", (req, res) => {
             if (dataUpdated.modifiedCount > 0) {
               User.findById(dataUser._id.toString())
                 .populate("stats")
+                .populate("rides")
                 .then((d) => res.json({ result: true, stat: d }));
             }
           });
@@ -42,7 +42,7 @@ router.post("/", (req, res) => {
       // console.log("else", dataUser);
       // //s'il n'existe pas utilisateur on recuper quand meme statistique et on envoi dans la BDD
       const newStats = new Stats({
-        noteVelo: req.body.noteVelo,
+        // noteVelo: req.body.noteVelo,
         noteRide: req.body.noteRide,
         isGuest: true,
       });
@@ -52,6 +52,18 @@ router.post("/", (req, res) => {
           res.json({ result: false, stat: data });
         });
       });
+    }
+  });
+});
+router.get("/:token", (req, res) => {
+  User.findOne({ token: req.params.token }).then((dataUser) => {
+    if (dataUser) {
+      User.findById(dataUser._id.toString())
+        .populate("stats")
+        .populate("rides")
+        .then((d) => res.json({ result: true, stat: d }));
+    } else {
+      res.json({ result: false, user: "usernotfound" });
     }
   });
 });
