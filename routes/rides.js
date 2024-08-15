@@ -46,7 +46,6 @@ router.post("/", (req, res) => {
       });
     } else {
       //s'il n'existe pas utilisateur on recuper quand meme statistique et on envoi dans la BDD
-      console.log("hello");
 
       const newRides = new Rides({
         depart: req.body.depart,

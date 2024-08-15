@@ -25,8 +25,6 @@ router.post("/signup", (req, res) => {
   }
 
   User.findOne({ username: userQuery }).then((data) => {
-    // console.log(data);
-
     if (data) {
       //Si un utilisateur existe déjà, pas de création
       res.json({
@@ -63,6 +61,8 @@ router.post("/signup", (req, res) => {
 
 //Se connecter à un compte utilisateur
 router.post("/signin", (req, res) => {
+  console.log(req.body);
+
   //créer une regex pour gérer la casse
   let userQuery = new RegExp(req.body.username, "i");
   let passwordQuery = req.body.password;
