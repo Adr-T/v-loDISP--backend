@@ -65,15 +65,13 @@ router.post("/", (req, res) => {
 });
 router.post("/historique", async (req, res) => {
   // on cherche dans da BDD utilisateur avec token
-  const user = await User.findOne({ token: req.body.token });
+  const user = await User.findOne({ token: req.body.token }).populate("rides");
 
   // condition si lutilisateur se trouve dans la BDD on envoi la donné cote front ent
-  if (user) {
-    const rides = await Rides.find();
-
+  if (user.rides) {
     let array = [];
 
-    for (const el of rides) {
+    for (const el of user.rides) {
       const [resDepart, resArrive] = await Promise.all([
         fetch(
           `http://api-adresse.data.gouv.fr/reverse/?lon=${el.depart.longitude}&lat=${el.depart.latitude}`
