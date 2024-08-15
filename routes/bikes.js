@@ -113,7 +113,7 @@ router.get("/:lat/:lon", async (req, res) => {
       d.coordinates.longitude < userBoundingBox.maxLon
     ) {
       tierData.push({
-        bikeId: d.id,
+        bikeId: Math.random(400 * d.id),
         latitude: d.coordinates.latitude,
         longitude: d.coordinates.longitude,
       });

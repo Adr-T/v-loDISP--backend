@@ -11,8 +11,8 @@ const dottBikes = [
     id: 2,
     provider: "dott",
     coordinates: {
-      latitude: 48.893626,
-      longitude: 2.239839,
+      latitude: 48.88706717358965,
+      longitude: 2.303708937338001,
     },
   },
   {
@@ -2293,6 +2293,158 @@ const dottBikes = [
     coordinates: {
       latitude: 48.860421,
       longitude: 2.271011,
+    },
+  },
+  {
+    id: 288,
+    provider: "dott",
+    coordinates: {
+      latitude: 48.888862222388006,
+      longitude: 2.3045269939519084,
+    },
+  },
+  {
+    id: 289,
+    provider: "dott",
+    coordinates: {
+      latitude: 48.887082300951384,
+      longitude: 2.301627131149957,
+    },
+  },
+  {
+    id: 290,
+    provider: "dott",
+    coordinates: {
+      latitude: 48.88915393744251,
+      longitude: 2.3021865281824634,
+    },
+  },
+  {
+    id: 291,
+    provider: "dott",
+    coordinates: {
+      latitude: 48.886388917706235,
+      longitude: 2.30416692230989,
+    },
+  },
+  {
+    id: 292,
+    provider: "dott",
+    coordinates: {
+      latitude: 48.886401601631924,
+      longitude: 2.3058001044644256,
+    },
+  },
+  {
+    id: 293,
+    provider: "dott",
+    coordinates: {
+      latitude: 48.888635534356226,
+      longitude: 2.3060042035375132,
+    },
+  },
+  {
+    id: 294,
+    provider: "dott",
+    coordinates: {
+      latitude: 48.88741340210971,
+      longitude: 2.3064852446334863,
+    },
+  },
+  {
+    id: 295,
+    provider: "dott",
+    coordinates: {
+      latitude: 48.890170339963916,
+      longitude: 2.3044066143678146,
+    },
+  },
+  {
+    id: 296,
+    provider: "dott",
+    coordinates: {
+      latitude: 48.886172941355504,
+      longitude: 2.306028431446839,
+    },
+  },
+  {
+    id: 297,
+    provider: "dott",
+    coordinates: {
+      latitude: 48.88434844800749,
+      longitude: 2.3056777380867084,
+    },
+  },
+  {
+    id: 298,
+    provider: "dott",
+    coordinates: {
+      latitude: 48.887027513861185,
+      longitude: 2.308142906118213,
+    },
+  },
+  {
+    id: 299,
+    provider: "dott",
+    coordinates: {
+      latitude: 48.88520305169203,
+      longitude: 2.3048938352817117,
+    },
+  },
+  {
+    id: 300,
+    provider: "dott",
+    coordinates: {
+      latitude: 48.88733729312717,
+      longitude: 2.307781609333088,
+    },
+  },
+  {
+    id: 301,
+    provider: "dott",
+    coordinates: {
+      latitude: 48.88783618622548,
+      longitude: 2.3104112423528673,
+    },
+  },
+  {
+    id: 302,
+    provider: "dott",
+    coordinates: {
+      latitude: 48.88814138222737,
+      longitude: 2.2710112,
+    },
+  },
+  {
+    id: 303,
+    provider: "dott",
+    coordinates: {
+      latitude: 48.88764556841381,
+      longitude: 2.3053378745798336,
+    },
+  },
+  {
+    id: 304,
+    provider: "dott",
+    coordinates: {
+      latitude: 48.88848655162362,
+      longitude: 2.3043270525418107,
+    },
+  },
+  {
+    id: 305,
+    provider: "dott",
+    coordinates: {
+      latitude: 48.88739157538425,
+      longitude: 2.303290967958433,
+    },
+  },
+  {
+    id: 306,
+    provider: "dott",
+    coordinates: {
+      latitude: 48.88819262236675,
+      longitude: 2.30240990774153,
     },
   },
 ];

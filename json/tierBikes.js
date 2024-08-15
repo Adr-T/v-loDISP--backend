@@ -2367,5 +2367,157 @@ const tierBikes = [
       longitude: 2.387788,
     },
   },
+  {
+    id: 297,
+    provider: "tier",
+    coordinates: {
+      latitude: 48.88826952505259,
+      longitude: 2.305564793812859,
+    },
+  },
+  {
+    id: 298,
+    provider: "tier",
+    coordinates: {
+      latitude: 48.88764556841381,
+      longitude: 2.302057860211556,
+    },
+  },
+  {
+    id: 299,
+    provider: "tier",
+    coordinates: {
+      latitude: 48.88651293157776,
+      longitude: 2.3042651654782587,
+    },
+  },
+  {
+    id: 300,
+    provider: "tier",
+    coordinates: {
+      latitude: 48.886994474924485,
+      longitude: 2.3032027708872755,
+    },
+  },
+  {
+    id: 301,
+    provider: "tier",
+    coordinates: {
+      latitude: 48.88836447429333,
+      longitude: 2.3028314485059607,
+    },
+  },
+  {
+    id: 302,
+    provider: "tier",
+    coordinates: {
+      latitude: 48.88747601363403,
+      longitude: 2.303749439948655,
+    },
+  },
+  {
+    id: 303,
+    provider: "tier",
+    coordinates: {
+      latitude: 48.8860371549241,
+      longitude: 2.30389589022635,
+    },
+  },
+  {
+    id: 304,
+    provider: "tier",
+    coordinates: {
+      latitude: 48.88779121885906,
+      longitude: 2.306065249905888,
+    },
+  },
+  {
+    id: 305,
+    provider: "tier",
+    coordinates: {
+      latitude: 48.88704045972592,
+      longitude: 2.3058784151009517,
+    },
+  },
+  {
+    id: 306,
+    provider: "tier",
+    coordinates: {
+      latitude: 48.88634429118554,
+      longitude: 2.3029824756156976,
+    },
+  },
+  {
+    id: 307,
+    provider: "tier",
+    coordinates: {
+      latitude: 48.88645533654087,
+      longitude: 2.3010840597150666,
+    },
+  },
+  {
+    id: 308,
+    provider: "tier",
+    coordinates: {
+      latitude: 48.88872915889634,
+      longitude: 2.3013520292403555,
+    },
+  },
+  {
+    id: 309,
+    provider: "tier",
+    coordinates: {
+      latitude: 48.890108767604104,
+      longitude: 2.304309443885751,
+    },
+  },
+  {
+    id: 310,
+    provider: "tier",
+    coordinates: {
+      latitude: 48.888133267284005,
+      longitude: 2.3057642317043796,
+    },
+  },
+  {
+    id: 311,
+    provider: "tier",
+    coordinates: {
+      latitude: 48.87536,
+      longitude: 2.387788,
+    },
+  },
+  {
+    id: 312,
+    provider: "tier",
+    coordinates: {
+      latitude: 48.88774676722738,
+      longitude: 2.3089706540480734,
+    },
+  },
+  {
+    id: 313,
+    provider: "tier",
+    coordinates: {
+      latitude: 48.89074950013047,
+      longitude: 2.302998914540682,
+    },
+  },
+  {
+    id: 314,
+    provider: "tier",
+    coordinates: {
+      latitude: 48.88595268933173,
+      longitude: 2.3038203276710028,
+    },
+  },
+  {
+    id: 315,
+    provider: "tier",
+    coordinates: {
+      latitude: 48.88567158442475,
+      longitude: 2.3066833741917936,
+    },
+  },
 ];
 module.exports = { tierBikes };
