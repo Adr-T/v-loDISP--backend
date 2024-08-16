@@ -61,7 +61,7 @@ router.post("/signup", (req, res) => {
 
 //Se connecter à un compte utilisateur
 router.post("/signin", (req, res) => {
-  console.log(req.body);
+  // console.log(req.body);
 
   //créer une regex pour gérer la casse
   let userQuery = new RegExp(req.body.username, "i");
