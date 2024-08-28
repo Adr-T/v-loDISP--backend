@@ -1,5 +1,4 @@
 {
-  
   "name": "v",
   "version": "0.0.0",
   "private": true,
@@ -21,6 +20,7 @@
     "morgan": "~1.9.1",
     "node-fetch": "2",
     "nodemon": "^3.1.4",
+    "uglify-js": "^3.19.2",
     "uid2": "^1.0.0"
   }
 }
