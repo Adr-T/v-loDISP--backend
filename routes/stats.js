@@ -59,8 +59,11 @@ router.post("/", (req, res) => {
         }
     });
 });
+
+//récupérer grâce au token les notes de trajets d'un utilisateur
 router.get("/:token", (req, res) => {
     User.findOne({ token: req.params.token }).then((dataUser) => {
+        //si on trouve l'utilisateur, on relie à l'utilisateur les trajets et les notes associées
         if (dataUser) {
             User.findById(dataUser._id.toString())
                 .populate("stats")
